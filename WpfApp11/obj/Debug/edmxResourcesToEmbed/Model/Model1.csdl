@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NormalBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Dish">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Time" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrderDish" Relationship="Self.FK_OrderDish_Dish" FromRole="Dish" ToRole="OrderDish" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusPayID" Type="Int32" Nullable="false" />
+    <Property Name="StatusReadyID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="StatusPay" Relationship="Self.FK_Order_StatusPay" FromRole="Order" ToRole="StatusPay" />
+    <NavigationProperty Name="StatusReady" Relationship="Self.FK_Order_StatusReady" FromRole="Order" ToRole="StatusReady" />
+    <NavigationProperty Name="OrderDish" Relationship="Self.FK_OrderDish_Order" FromRole="Order" ToRole="OrderDish" />
+  </EntityType>
+  <EntityType Name="OrderDish">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DishID" Type="Int32" Nullable="false" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dish" Relationship="Self.FK_OrderDish_Dish" FromRole="OrderDish" ToRole="Dish" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_OrderDish_Order" FromRole="OrderDish" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="StatusPay">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_StatusPay" FromRole="StatusPay" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="StatusReady">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_StatusReady" FromRole="StatusReady" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_OrderDish_Dish">
+    <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
+    <End Role="OrderDish" Type="Self.OrderDish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderDish">
+        <PropertyRef Name="DishID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_StatusPay">
+    <End Role="StatusPay" Type="Self.StatusPay" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusPay">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="StatusPayID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_StatusReady">
+    <End Role="StatusReady" Type="Self.StatusReady" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusReady">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="StatusReadyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDish_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderDish" Type="Self.OrderDish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderDish">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NormalBaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Dish" EntityType="Self.Dish" />
+    <EntitySet Name="Order" EntityType="Self.Order" />
+    <EntitySet Name="OrderDish" EntityType="Self.OrderDish" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="StatusPay" EntityType="Self.StatusPay" />
+    <EntitySet Name="StatusReady" EntityType="Self.StatusReady" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_OrderDish_Dish" Association="Self.FK_OrderDish_Dish">
+      <End Role="Dish" EntitySet="Dish" />
+      <End Role="OrderDish" EntitySet="OrderDish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_StatusPay" Association="Self.FK_Order_StatusPay">
+      <End Role="StatusPay" EntitySet="StatusPay" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_StatusReady" Association="Self.FK_Order_StatusReady">
+      <End Role="StatusReady" EntitySet="StatusReady" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDish_Order" Association="Self.FK_OrderDish_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDish" EntitySet="OrderDish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

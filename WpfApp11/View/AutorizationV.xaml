@@ -1,0 +1,43 @@
+﻿<Window x:Class="WpfApp11.WaiterVM"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp11"
+        mc:Ignorable="d"
+        Title="AutorizationV" Height="450" Width="450">
+    <Grid Background="#FFC0DEEC">
+        <Label Foreground="Black" Content="Введите логин:" 
+               FontSize="24" FontFamily="Candara Light" Grid.Row="0" 
+               HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" 
+               VerticalAlignment="Bottom" Height="50" Margin="10,0,-10,245" 
+               FontStyle="Italic" FontWeight="Bold"/>
+
+        <Label Foreground="Black" Content="Введите пароль:" 
+               FontSize="24" FontFamily="Candara Light" 
+               HorizontalContentAlignment="Left" 
+               VerticalContentAlignment="Bottom" Height="50" 
+               VerticalAlignment="Bottom" 
+               Margin="10,0,-10,164"/>
+        <TextBox Name ="LoginUser" 
+                 HorizontalAlignment="Left" Height="35" 
+                 Margin="224,154,0,0" TextWrapping="Wrap"  
+                 VerticalAlignment="Top" Width="185"
+                 Text="{Binding Login}"/>
+        <PasswordBox Name="PasswordPBox" 
+                     HorizontalAlignment="Left"
+                     Margin="224,235,0,0" 
+                     VerticalAlignment="Top" 
+                     Width="185" 
+                     Height="35"/>
+        <Button Name="Enter" 
+                Content="Button" 
+                Command="{Binding LoginCommand}" 
+                CommandParameter="{Binding ElementName=PasswordPBox}"
+                FontFamily="Candara Light" 
+                FontSize="36" HorizontalAlignment="Center"
+                Margin="0,331,0,0" VerticalAlignment="Top" 
+                Width="158" Height="48" BorderBrush="#FF3681DA" 
+                Background="#FF8EB5B9"/>
+    </Grid>
+</Window>
